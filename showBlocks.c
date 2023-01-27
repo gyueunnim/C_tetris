@@ -4,6 +4,7 @@
 void ShowBlock(char [][4]);
 void SetCurrentCursorPos(int, int);
 COORD GetCurrentCursorPos(void);
+void RemoveCursor(void);
 
 char blockModel[][4][4] = {
 	{
@@ -33,6 +34,7 @@ char blockModel[][4][4] = {
 };
 
 int main(void) {
+    RemoveCursor();
 	SetCurrentCursorPos(0, 0);
 	ShowBlock(blockModel[0]);
 
@@ -77,4 +79,11 @@ COORD GetCurrentCursorPos(void) {
 	curPoint.Y = curInfo.dwCursorPosition.Y;
 
 	return curPoint;
+}
+
+void RemoveCursor(void) {
+	CONSOLE_CURSOR_INFO curInfo;
+	GetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &curInfo);
+	curInfo.bVisible = 0;
+	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &curInfo);
 }
